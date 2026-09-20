@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getStoredToken, getStoredEmail } from '@/state/AppState';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8000/api',
+  baseURL: import.meta.env.VITE_API_URL + '/api',
 });
 
 // Token management: use stored token from login, with lazy refresh
@@ -18,7 +18,7 @@ async function ensureToken() {
 
   const email = getStoredEmail() || 'admin@railopt.gov.in';
   tokenPromise = axios
-    .post('http://localhost:8000/api/auth/login', {
+    .post(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
       email,
       password: 'password123',
     })

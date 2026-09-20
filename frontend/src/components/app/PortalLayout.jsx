@@ -55,7 +55,7 @@ export default function PortalLayout({ children, role }) {
                   onClick={async () => {
                     setServerStatus('loading')
                     try {
-                      const loginRes = await fetch('http://localhost:8000/api/auth/login', {
+                      const loginRes = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ email: 'admin@railopt.gov.in', password: 'password123' })
@@ -64,8 +64,8 @@ export default function PortalLayout({ children, role }) {
                       const token = loginData.access_token;
                       localStorage.setItem('railopt_token', token);
 
-                      const res = await fetch('http://localhost:8000/api/demo/setup', { 
-                        method: 'POST', 
+                      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/demo/setup`, {
+                        method: 'POST',
                         headers: { 'Authorization': `Bearer ${token}` }
                       });
                       if (res.ok) {
@@ -82,15 +82,14 @@ export default function PortalLayout({ children, role }) {
                   }}
                   className="btn-quiet px-3 py-1.5 text-[12px] font-medium flex items-center gap-2 mr-1"
                 >
-                  <span className={`font-bold uppercase tracking-widest ${
-                    serverStatus === 'ready' ? 'text-ok' :
-                    serverStatus === 'error' ? 'text-danger' :
-                    serverStatus === 'loading' ? 'text-warn' : 'text-danger'
-                  }`}>
+                  <span className={`font-bold uppercase tracking-widest ${serverStatus === 'ready' ? 'text-ok' :
+                      serverStatus === 'error' ? 'text-danger' :
+                        serverStatus === 'loading' ? 'text-warn' : 'text-danger'
+                    }`}>
                     {serverStatus === 'loading' ? 'Setting up...' :
-                     serverStatus === 'ready' ? '✓ Server Ready' :
-                     serverStatus === 'error' ? 'Error — Retry' :
-                     'Setup Server'}
+                      serverStatus === 'ready' ? '✓ Server Ready' :
+                        serverStatus === 'error' ? 'Error — Retry' :
+                          'Setup Server'}
                   </span>
                 </button>
                 <Link
