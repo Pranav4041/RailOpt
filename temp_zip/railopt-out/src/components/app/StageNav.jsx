@@ -1,0 +1,59 @@
+import { useNavigate } from 'react-router-dom'
+import { Bell, LogOut, User } from 'lucide-react'
+import { useAppState } from '@/state/AppState'
+
+export default function StageNav() {
+  const { currentUser, logout } = useAppState()
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    logout()
+    navigate('/login')
+  }
+
+  return (
+    <header className="sticky top-0 z-30 border-b border-line bg-white text-ink">
+      <div className="flex items-center justify-between px-6 py-3">
+        <div>
+          <h1 className="text-xl tracking-tight font-medium uppercase leading-tight">RAILOPT</h1>
+          <p className="text-[11px] text-muted uppercase tracking-wide">Railway Maintenance Management Portal</p>
+        </div>
+
+        <div className="flex items-center gap-6">
+          <button className="text-muted hover:text-ink relative">
+            <Bell size={18} />
+            <span className="absolute -top-1 -right-1 flex h-3 w-3">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500 border border-white"></span>
+            </span>
+          </button>
+
+          <div className="h-8 w-[1px] bg-line"></div>
+
+          <div className="flex items-center gap-3">
+            <div className="h-8 w-8 rounded bg-base flex items-center justify-center border border-line text-muted">
+              <User size={16} />
+            </div>
+            <div className="hidden sm:block">
+              <div className="text-sm font-medium leading-tight">
+                {currentUser?.label || 'Guest'}
+              </div>
+              <div className="text-[11px] text-muted uppercase tracking-wider">
+                {currentUser?.id === 'admin' ? 'System Administrator' : 'Department User'}
+              </div>
+            </div>
+          </div>
+
+          <button 
+            onClick={handleLogout}
+            className="flex items-center gap-2 text-sm text-muted hover:text-ink border border-line px-3 py-1.5 rounded bg-base hover:bg-[#f8fafc] transition-colors"
+          >
+            <LogOut size={14} />
+            <span className="hidden sm:inline">Logout</span>
+          </button>
+        </div>
+      </div>
+    </header>
+  )
+}
+
