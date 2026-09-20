@@ -126,9 +126,17 @@ async def log_requests(request: Request, call_next):
     print(f"INFO:     {request.client.host} - \"{request.method} {request.url.path}\" {response.status_code} ({process_time:.1f}ms)", flush=True)
     return response
 
+app = FastAPI()
+
+ALLOWED_ORIGINS = [
+    "https://rail-opt-git-main-pranav4041s-projects.vercel.app",
+    "http://localhost:5173",
+    "http://localhost:3000",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://rail-opt-eosin.vercel.app"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
